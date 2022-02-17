@@ -6,35 +6,35 @@ const express = require('express');
 const logger = require("morgan");
 const path = require("path");
 
+const app = express();
 
 // ℹ️ Connects to the database
-require('./config/db.configdb');
+require('./config/db.config');
 app.use(logger('dev'));
 
 
-const cookieParser = require("cookie-parser");
-const favicon = require("serve-favicon");
+// const cookieParser = require("cookie-parser");
+// const favicon = require("serve-favicon");
 
 
 // Handles the handlebars
 // https://www.npmjs.com/package/hbs
 const hbs = require('hbs');
 
-const app = express();
 
  // Normalizes the path to the views folder
- app.set("views", path.join(__dirname, "..", "views"));
+ app.set("views", path.join(__dirname, "views"));
  // Sets the view engine to handlebars
  app.set("view engine", "hbs");
  // Handles access to the public folder
- app.use(express.static(path.join(__dirname, "..", "public")));
+ app.use(express.static(path.join(__dirname, "public")));
 
  // Handles access to the favicon
- app.use(favicon(path.join(__dirname, "..", "public", "images", "favicon.ico")));
+//  app.use(favicon(path.join(__dirname, "..", "public", "images", "favicon.ico")));
 
  app.use(express.json());
  app.use(express.urlencoded({ extended: false }));
- app.use(cookieParser());
+
 
 
 // default value for title local
@@ -52,7 +52,7 @@ app.use('/', routes);
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 app.use((req, res, next) => {
     // this middleware runs whenever requested page is not available
-    res.status(404).render("errors/not-found");
+    res.status(404).render("error/not-found");
   });
 
   app.use((err, req, res, next) => {
@@ -62,7 +62,7 @@ app.use((req, res, next) => {
 
     // only render if the error ocurred before sending the response
     if (!res.headersSent) {
-      res.status(500).render("/errors/error");
+      res.status(500).render("error/err");
     }
   });
 

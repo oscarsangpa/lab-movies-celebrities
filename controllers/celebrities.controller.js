@@ -1,13 +1,33 @@
 const mongoose = require('mongoose');
-const Celebrity = require('../models/Celebrity.model');
+const Celebrity = require('../models/celebrity.model')
 
-module.exports.celebList = (req, res, next) => {
+module.exports.list = (req, res, next) => {
+  Celebrity.find()
+    .then(celebrities => {
+      res.render('celebrities/list', { celebrities })
+    })
+    .catch(next)
+}
 
-    Celebrity.find()
-        .then((celebrities) => {
-            res.render('celebrities/celebrities', { celebrities })
+module.exports.create = (req, res, next) => {
+  res.render('celebrities/new')
+}
 
-        })
-        .catch((err) => console.log(err))
+module.exports.doCreate = (req, res, next) => {
+  const data = { name, occupation, catchPhrase } = req.body
 
-  };
+  Celebrity.create(data)
+    .then(celebrity => {
+      res.redirect('/celebrities')
+    })
+    .catch(error => {
+      if (error instanceof mongoose.Error.ValidationError) {
+        res.render('celebrities/new', {
+          errors: error.errors,
+          celebrity: data,
+        });
+      } else {
+        next(error);
+      }
+    })
+}
