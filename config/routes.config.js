@@ -17,6 +17,8 @@ router.get('/movies/new', movies.create);
 router.post('/movies', movies.doCreate);
 router.get('/movies/:id', movies.detail);
 router.post('/movies/:id/delete', movies.delete);
+router.get('/movies/:id/edit', movies.edit);
+
 
 // Home route
 router.get('/', (req, res) => {

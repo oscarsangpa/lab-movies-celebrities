@@ -56,6 +56,17 @@ module.exports.doCreate = (req, res, next) => {
     })
 }
 
+module.exports.edit = (req, res, next) => {
+
+  Movie.findByIdAndUpdate(req.params.id)
+    .then((movie) => {
+      res.render('movies/edit', { movie });
+      res.redirect('movie/list')
+    })
+    .catch(next)
+
+};
+
 module.exports.delete = (req, res, next) => {
   Movie.findByIdAndRemove(req.params.id)
     .then(() => {
