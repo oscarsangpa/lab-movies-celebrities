@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Celebrity = require('../models/celebrity.model')
 const Movie = require('../models/Movie.model');
 
 module.exports.list = (req, res, next) => {
